@@ -4,7 +4,14 @@ Companheiro flutuante para macOS e Windows. O Nox fica transparente, sempre vis�
 
 ## Estado visual atual
 
-Enquanto a malha 3D fiel ao Nox original está sendo construída, o app usa a fileira de idle estável do atlas original — sem cortes, sem aura e sem usar a caminhada antiga fora de contexto. O protótipo WebGL continua preservado no histórico da branch, mas não é exibido pelo app.
+Enquanto a malha 3D fiel ao Nox original é lapidada, o app usa a fileira de idle estável do atlas original — sem cortes, sem aura e sem usar a caminhada antiga fora de contexto. A malha 3D quadrúpede é gerada em `assets/models/nox-quadruped-prototype.glb` como base mecânica separada e ainda não é exibida no app.
+
+Ela contém peças articuladas e os clips `quadruped_idle` e `quadruped_walk`. Para regenerá-la e verificar se outro carregador glTF consegue abri-la:
+
+```bash
+npm run export:mesh
+npm run check:mesh
+```
 
 ## Como interagir
 

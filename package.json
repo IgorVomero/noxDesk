@@ -7,6 +7,8 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
+    "export:mesh": "node scripts/export-nox-mesh.mjs",
+    "check:mesh": "node scripts/check-nox-mesh.mjs",
     "package:mac": "electron-builder --mac dmg zip",
     "package:win": "electron-builder --win nsis zip"
   },
