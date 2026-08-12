@@ -2,17 +2,17 @@
 
 Companheiro flutuante para macOS e Windows. O Nox fica transparente, sempre visível e responde à sua presença.
 
-## Protótipo 3D
+## Estado visual atual
 
-O quadrúpede atual é um protótipo WebGL real com Three.js: corpo, patas, rodas, cauda, pescoço e olhos são peças 3D independentes. A caminhada articula as juntas e desloca o Nox na mesma cadência. A identidade visual segue o Nox original de armadura grafite, rodas douradas e linhas roxas; a malha de produção, a forma bípede e a transformação serão as próximas etapas.
+Enquanto a malha 3D fiel ao Nox original está sendo construída, o app usa a fileira de idle estável do atlas original — sem cortes, sem aura e sem usar a caminhada antiga fora de contexto. O protótipo WebGL continua preservado no histórico da branch, mas não é exibido pelo app.
 
 ## Como interagir
 
-- Clique: desperta a atenção do Nox; os olhos ficam vermelhos no estado de alerta.
+- Clique: desperta a atenção do Nox.
 - Arraste-o pelo corpo para escolher onde ele fica.
 - Menu do ícone na barra superior/bandeja: tamanho, rotina e cliques atravessando.
 
-O tamanho e as preferências ficam salvos localmente. A rotina alterna entre repouso, observação e caminhada; a forma bípede e a transformação entram depois que o ciclo quadrúpede estiver aprovado.
+O tamanho e as preferências ficam salvos localmente. A caminhada, a forma bípede e a transformação voltam quando cada uma tiver sua animação e malha 3D aprovadas.
 
 ## Rodar localmente
 
