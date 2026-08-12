@@ -7,19 +7,10 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <main class="shell" aria-label="Nox desktop companion">
-      <section class="hud" id="hud">
-        <span class="status-dot"></span>
-        <span id="form-label">FORMA: QUADRÚPEDE</span>
-      </section>
-      <button id="pet" class="pet quadruped" aria-label="Transformar Nox" title="Clique para transformar o Nox"></button>
-      <section class="controls" aria-label="Controles do Nox">
-        <button id="transform" class="accent">Transformar</button>
-        <button id="click-through">Cliques: ativos</button>
-        <button id="smaller">−</button>
-        <button id="larger">+</button>
-        <button id="hide">Ocultar</button>
-      </section>
+    <main class="shell" aria-label="Nox, seu guardião de desktop">
+      <button id="pet" class="pet quadruped" aria-label="Cumprimentar Nox" title="Clique para cumprimentar o Nox"></button>
+      <p id="thought" class="thought" aria-live="polite"></p>
+      <div class="presence" aria-hidden="true"></div>
     </main>
     <script src="renderer.js"></script>
   </body>
