@@ -2,17 +2,30 @@
 * { box-sizing: border-box; }
 html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: transparent; }
 .shell { width: 100%; height: 100%; position: relative; user-select: none; -webkit-app-region: drag; }
-.presence { position: absolute; left: 50%; bottom: 11%; width: 56%; height: 14%; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(ellipse, rgba(116, 23, 205, .32), transparent 68%); filter: blur(12px); opacity: .7; transition: .5s ease; pointer-events: none; }
-.pet { position: absolute; left: 50%; bottom: 11%; width: 192px; height: 208px; border: 0; padding: 0; transform: translateX(-50%) scale(1.18); transform-origin: center bottom; background-color: transparent; background-repeat: no-repeat; image-rendering: auto; -webkit-app-region: no-drag; cursor: pointer; filter: drop-shadow(0 15px 15px rgba(5, 0, 11, .56)); transition: filter .3s ease, transform .35s cubic-bezier(.2,.8,.2,1); }
-.pet:hover { filter: drop-shadow(0 17px 22px rgba(103, 25, 175, .46)); }
-.quadruped { background-image: url('../assets/nox-quadruped-atlas.png'); background-size: 1536px 2288px; }
-.biped { background-size: contain; background-position: center bottom !important; background-repeat: no-repeat; }
-.pet.is-watching { transform: translateX(-50%) scale(1.22) translateY(-3px); }
-.pet.is-sleeping { transform: translateX(-50%) scale(1.08) translateY(8px); filter: saturate(.68) brightness(.75) drop-shadow(0 10px 12px rgba(5, 0, 11, .38)); }
-.shell.sleeping .presence { opacity: .25; transform: translateX(-50%) scale(.8); }
-.shell.recharging .presence { opacity: 1; transform: translateX(-50%) scale(1.35); background: radial-gradient(ellipse, rgba(214, 149, 55, .54), rgba(116, 23, 205, .24) 46%, transparent 70%); animation: aura-pulse 1.5s ease-in-out infinite; }
-.pet.is-recharging { animation: recharge 1.5s ease-in-out infinite; }
-.thought { position: absolute; left: 50%; top: 13%; max-width: 72%; margin: 0; padding: 7px 10px; transform: translateX(-50%) translateY(6px); border: 1px solid rgba(184, 121, 255, .34); border-radius: 999px; background: rgba(14, 5, 26, .68); box-shadow: 0 8px 24px rgba(8, 0, 13, .28); color: #e9dcff; font-size: 11px; font-weight: 700; letter-spacing: .02em; text-align: center; opacity: 0; transition: opacity .25s ease, transform .25s ease; pointer-events: none; }
-.thought.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
-@keyframes aura-pulse { 50% { opacity: .44; transform: translateX(-50%) scale(.88); } }
-@keyframes recharge { 50% { filter: brightness(1.2) saturate(1.25) drop-shadow(0 0 17px rgba(206, 143, 50, .62)); } }
+.pet {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  width: min(92%, 318px);
+  aspect-ratio: 1;
+  border: 0;
+  padding: 0;
+  transform: translateX(-50%);
+  transform-origin: 50% 88%;
+  background: url('../assets/reference/nox-quadruped-master-v2.png') center / contain no-repeat;
+  -webkit-app-region: no-drag;
+  cursor: grab;
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, .28));
+  animation: idle-breath 4.6s cubic-bezier(.42, 0, .58, 1) infinite;
+  will-change: transform;
+}
+.pet:active { cursor: grabbing; }
+.pet.state-alert { animation-duration: 2.35s; }
+.pet.state-resting { animation-duration: 6.8s; filter: saturate(.88) brightness(.92) drop-shadow(0 9px 12px rgba(0, 0, 0, .2)); }
+.pet.state-interacting { animation-duration: 1.85s; }
+@keyframes idle-breath {
+  0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+  46% { transform: translateX(-50%) translateY(-2px) scale(1.008); }
+  54% { transform: translateX(-50%) translateY(-2px) scale(1.008); }
+}
+@media (prefers-reduced-motion: reduce) { .pet { animation: none; } }
