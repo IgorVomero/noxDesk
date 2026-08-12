@@ -1,6 +1,15 @@
 # Nox Desktop
 
-Companheiro flutuante para macOS e Windows. O Nox fica transparente, sempre visível, pode ser arrastado e alterna entre a forma quadrúpede e a forma bípede Transformer.
+Companheiro flutuante para macOS e Windows. O Nox fica transparente, sempre visível e vive no desktop: patrulha, observa, cochila e responde à sua presença.
+
+## Como interagir
+
+- Clique: o Nox cumprimenta você.
+- Clique duplo: ele alterna entre a forma felina e a forma guardião.
+- Arraste-o pelo corpo para escolher onde ele fica.
+- Menu do ícone na barra superior/bandeja: tamanho, autonomia, cliques atravessando e transformação.
+
+O tamanho e as preferências ficam salvos localmente. Com a autonomia ativa, o Nox se move pelo monitor de tempos em tempos; pausar essa opção o deixa quieto onde estiver.
 
 ## Rodar localmente
 
@@ -23,4 +32,4 @@ No Windows:
 npm run package:win
 ```
 
-Use o menu do ícone do Nox para esconder, trazer de volta ou deixar cliques atravessarem o pet. Passe o mouse para ver os controles; clique nele para transformar.
+Use o menu do ícone do Nox para trazer de volta, configurar seu tamanho, controlar a autonomia ou deixar cliques atravessarem o pet.
