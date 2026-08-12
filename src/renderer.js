@@ -27,7 +27,12 @@ function setPose(name = 'idle', mood = '') {
   const tick = () => { pet.style.backgroundPosition = `${-frame * 192}px ${-row * 208}px`; animationTimer = window.setTimeout(() => { frame = (frame + 1) % durations.length; tick(); }, durations[frame]); };
   tick();
 }
-function idle() { state = 'idle'; shell.classList.remove('recharging'); if (!isTransforming) setPose('idle'); }
+function idle() {
+  shell.classList.remove('recharging');
+  if (isBiped) { state = 'biped'; return; }
+  state = 'idle';
+  if (!isTransforming) setPose('idle');
+}
 function watch() { state = 'watch'; setPose('idle', 'is-watching'); say('Nox está de olho.', 2100); window.setTimeout(idle, 2500); }
 function doze() { state = 'doze'; setPose('idle', 'is-sleeping'); say('Modo sentinela silenciosa.', 2800); window.setTimeout(idle, 7200); }
 function greet() { if (isTransforming) return; state = 'greet'; setPose('greet'); say('Estou aqui.', 2100); window.setTimeout(idle, 2600); }
