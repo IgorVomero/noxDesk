@@ -62,9 +62,7 @@ function rebuildTrayMenu() {
   const selected = (size) => settings.scale === size;
   tray.setContextMenu(Menu.buildFromTemplate([
     { label: 'Mostrar Nox', click: showNox },
-    { label: 'Cumprimentar', click: () => sendCommand('greet') },
-    { label: 'Recarregar energia', click: () => sendCommand('recharge') },
-    { label: 'Transformar', click: () => sendCommand('transform') },
+    { label: 'Interagir', click: () => sendCommand('interact') },
     { type: 'separator' },
     { label: 'Tamanho', submenu: [
       { label: 'Discreto', type: 'radio', checked: selected(0.8), click: () => updateSettings({ scale: 0.8 }) },
@@ -72,7 +70,7 @@ function rebuildTrayMenu() {
       { label: 'Presença', type: 'radio', checked: selected(1.25), click: () => updateSettings({ scale: 1.25 }) },
       { label: 'Grande', type: 'radio', checked: selected(1.5), click: () => updateSettings({ scale: 1.5 }) }
     ] },
-    { label: settings.autonomous ? 'Pausar autonomia' : 'Ativar autonomia', click: () => updateSettings({ autonomous: !settings.autonomous }) },
+    { label: settings.autonomous ? 'Pausar rotina' : 'Ativar rotina', click: () => updateSettings({ autonomous: !settings.autonomous }) },
     { label: settings.clickThrough ? 'Liberar cliques no Nox' : 'Deixar cliques atravessarem', click: () => updateSettings({ clickThrough: !settings.clickThrough }) },
     { type: 'separator' },
     { label: 'Encerrar Nox', click: () => { isQuitting = true; app.quit(); } }
@@ -82,7 +80,7 @@ function rebuildTrayMenu() {
 app.whenReady().then(() => {
   loadSettings();
   createWindow();
-  const icon = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'transform', 'frame-7.png'));
+  const icon = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'reference', 'nox-quadruped-master-v2.png'));
   tray = new Tray(icon.resize({ width: 20, height: 20 }));
   tray.setToolTip('Nox — guardião online');
   tray.on('click', () => windowRef?.isVisible() ? windowRef.hide() : showNox());
