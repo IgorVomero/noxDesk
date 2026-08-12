@@ -2,6 +2,7 @@ import * as THREE from '../node_modules/three/build/three.module.js';
 import { GLTFLoader } from '../node_modules/three/examples/jsm/loaders/GLTFLoader.js';
 
 const canvas = document.querySelector('#nox-canvas');
+const status = document.querySelector('#mesh-status');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -64,15 +65,37 @@ function eyes(color) {
   });
 }
 
-new GLTFLoader().load('../assets/models/nox-quadruped-prototype.glb', (gltf) => {
-  model = gltf.scene;
-  model.position.y = -.88;
-  model.rotation.y = Math.PI;
-  scene.add(model);
-  mixer = new THREE.AnimationMixer(model);
-  model.userData.clips = new Map(gltf.animations.map((clip) => [clip.name, clip]));
-  play('quadruped_idle');
-}, undefined, console.error);
+function showStatus(message, failed = false) {
+  status.textContent = message;
+  status.dataset.state = failed ? 'error' : 'ready';
+}
+
+function toArrayBuffer(value) {
+  if (value instanceof ArrayBuffer) return value;
+  if (ArrayBuffer.isView(value)) return value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
+  throw new TypeError('O arquivo da malha chegou em um formato inválido.');
+}
+
+async function loadMesh() {
+  try {
+    if (typeof window.noxDesktop?.readMeshAsset !== 'function') throw new Error('A ponte do aplicativo não está disponível.');
+    const rawAsset = await window.noxDesktop.readMeshAsset();
+    const gltf = await new Promise((resolve, reject) => new GLTFLoader().parse(toArrayBuffer(rawAsset), '', resolve, reject));
+    model = gltf.scene;
+    model.position.y = -.88;
+    model.rotation.y = Math.PI;
+    scene.add(model);
+    mixer = new THREE.AnimationMixer(model);
+    model.userData.clips = new Map(gltf.animations.map((clip) => [clip.name, clip]));
+    play('quadruped_idle');
+    showStatus('Malha carregada · duas animações de teste disponíveis');
+  } catch (error) {
+    console.error(error);
+    showStatus(`Não carregou: ${error.message}`, true);
+  }
+}
+
+void loadMesh();
 
 canvas.addEventListener('pointerdown', (event) => { dragging = { x: event.clientX, y: event.clientY }; canvas.setPointerCapture(event.pointerId); });
 canvas.addEventListener('pointermove', (event) => {

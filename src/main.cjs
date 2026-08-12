@@ -92,6 +92,7 @@ app.whenReady().then(() => {
 });
 
 ipcMain.handle('get-settings', () => settings);
+ipcMain.handle('read-mesh-asset', () => fs.promises.readFile(path.join(__dirname, '..', 'assets', 'models', 'nox-quadruped-prototype.glb')));
 ipcMain.on('move-nox', (_event, deltaX, deltaY) => moveNox(deltaX, deltaY));
 ipcMain.on('set-click-through', (_event, enabled) => updateSettings({ clickThrough: Boolean(enabled) }));
 app.on('window-all-closed', (event) => event.preventDefault());

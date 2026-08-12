@@ -9,3 +9,5 @@ canvas:active { cursor: grabbing; }
 button { border: 1px solid #5b3b87; border-radius: 999px; padding: 7px 10px; color: #e8ddff; background: rgba(22, 15, 36, .82); font: inherit; cursor: pointer; }
 button[aria-pressed="true"], button:hover { border-color: #c44cff; background: #462065; }
 small { display: block; margin-top: 11px; color: #b9adc9; }
+#mesh-status { display: block; margin-top: 8px; color: #8ee6c4; font-size: 11px; }
+#mesh-status[data-state='error'] { color: #ff8799; }
