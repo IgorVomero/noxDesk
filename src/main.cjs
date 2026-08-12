@@ -31,18 +31,21 @@ function updateSettings(next) {
 function sendCommand(command) { showNox(); windowRef?.webContents.send('nox-command', command); }
 
 function createWindow() {
+  const inspect3d = process.env.NOX_INSPECT_3D === '1';
   const { workArea } = screen.getPrimaryDisplay();
   const size = windowSize();
   windowRef = new BrowserWindow({
-    ...size,
+    ...(inspect3d ? { width: 900, height: 720 } : size),
     x: Math.max(workArea.x + workArea.width - size.width - 22, workArea.x),
     y: Math.max(workArea.y + workArea.height - size.height - 46, workArea.y),
-    frame: false, transparent: true, resizable: false, skipTaskbar: true, alwaysOnTop: true, hasShadow: false,
+    frame: inspect3d, transparent: !inspect3d, resizable: inspect3d, skipTaskbar: !inspect3d, alwaysOnTop: !inspect3d, hasShadow: false,
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false }
   });
-  windowRef.setAlwaysOnTop(true, 'floating');
-  windowRef.setIgnoreMouseEvents(settings.clickThrough, { forward: true });
-  windowRef.loadFile(path.join(__dirname, 'index.html'));
+  if (!inspect3d) {
+    windowRef.setAlwaysOnTop(true, 'floating');
+    windowRef.setIgnoreMouseEvents(settings.clickThrough, { forward: true });
+  }
+  windowRef.loadFile(path.join(__dirname, inspect3d ? 'mesh-inspector.html' : 'index.html'));
   windowRef.webContents.once('did-finish-load', sendSettings);
   windowRef.on('close', (event) => { if (!isQuitting) { event.preventDefault(); windowRef.hide(); } });
 }
@@ -80,6 +83,7 @@ function rebuildTrayMenu() {
 app.whenReady().then(() => {
   loadSettings();
   createWindow();
+  if (process.env.NOX_INSPECT_3D === '1') return;
   const icon = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'reference', 'nox-quadruped-master-v2.png'));
   tray = new Tray(icon.resize({ width: 20, height: 20 }));
   tray.setToolTip('Nox — guardião online');

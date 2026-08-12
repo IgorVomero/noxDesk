@@ -13,6 +13,12 @@ npm run export:mesh
 npm run check:mesh
 ```
 
+Para abrir a malha em uma janela separada de inspeção 3D — sem alterar o pet 2D — use:
+
+```bash
+npm run inspect:3d
+```
+
 ## Como interagir
 
 - Clique: desperta a atenção do Nox.

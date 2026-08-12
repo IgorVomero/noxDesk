@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nox — inspeção 3D</title>
+    <link rel="stylesheet" href="mesh-inspector.css" />
+  </head>
+  <body>
+    <canvas id="nox-canvas" aria-label="Malha 3D do Nox"></canvas>
+    <section class="hud" aria-label="Controles de inspeção">
+      <p><span></span>Nox · quadrúpede</p>
+      <div class="controls">
+        <button type="button" data-clip="quadruped_idle" aria-pressed="true">Observar</button>
+        <button type="button" data-clip="quadruped_walk" aria-pressed="false">Caminhar</button>
+        <button type="button" data-eye="violet">Roxo</button>
+        <button type="button" data-eye="red">Vermelho</button>
+        <button type="button" data-eye="blue">Azul</button>
+      </div>
+      <small>Arraste para girar · roda do mouse para aproximar</small>
+    </section>
+    <script type="module" src="mesh-inspector.js"></script>
+  </body>
+</html>

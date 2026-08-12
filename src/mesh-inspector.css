@@ -1,0 +1,11 @@
+* { box-sizing: border-box; }
+html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #101218; }
+canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+canvas:active { cursor: grabbing; }
+.hud { position: fixed; inset: 20px auto auto 20px; color: #f3ecff; font: 500 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; user-select: none; }
+.hud p { margin: 0 0 10px; letter-spacing: .12em; text-transform: uppercase; }
+.hud p span { display: inline-block; width: 8px; height: 8px; margin-right: 7px; border-radius: 50%; background: #bc3dff; box-shadow: 0 0 14px #bc3dff; }
+.controls { display: flex; flex-wrap: wrap; gap: 7px; max-width: 360px; }
+button { border: 1px solid #5b3b87; border-radius: 999px; padding: 7px 10px; color: #e8ddff; background: rgba(22, 15, 36, .82); font: inherit; cursor: pointer; }
+button[aria-pressed="true"], button:hover { border-color: #c44cff; background: #462065; }
+small { display: block; margin-top: 11px; color: #b9adc9; }

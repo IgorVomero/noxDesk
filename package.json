@@ -7,6 +7,7 @@
   "scripts": {
     "start": "electron .",
     "dev": "electron . --dev",
+    "inspect:3d": "NOX_INSPECT_3D=1 electron .",
     "export:mesh": "node scripts/export-nox-mesh.mjs",
     "check:mesh": "node scripts/check-nox-mesh.mjs",
     "package:mac": "electron-builder --mac dmg zip",
