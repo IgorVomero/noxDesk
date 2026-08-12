@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nox</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell" aria-label="Nox desktop companion">
+      <section class="hud" id="hud">
+        <span class="status-dot"></span>
+        <span id="form-label">FORMA: QUADRÚPEDE</span>
+      </section>
+      <button id="pet" class="pet quadruped" aria-label="Transformar Nox" title="Clique para transformar o Nox"></button>
+      <section class="controls" aria-label="Controles do Nox">
+        <button id="transform" class="accent">Transformar</button>
+        <button id="click-through">Cliques: ativos</button>
+        <button id="smaller">−</button>
+        <button id="larger">+</button>
+        <button id="hide">Ocultar</button>
+      </section>
+    </main>
+    <script src="renderer.js"></script>
+  </body>
+</html>
