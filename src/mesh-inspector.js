@@ -30,11 +30,7 @@ const floor = new THREE.Mesh(new THREE.CircleGeometry(3.3, 64), new THREE.MeshSt
 floor.rotation.x = -Math.PI / 2; floor.position.y = -.89; scene.add(floor);
 
 function updateCamera() {
-  camera.position.set(
-    target.x + radius * Math.cos(pitch) * Math.sin(yaw),
-    target.y + radius * Math.sin(pitch),
-    target.z + radius * Math.cos(pitch) * Math.cos(yaw)
-  );
+  camera.position.set(target.x + radius * Math.cos(pitch) * Math.sin(yaw), target.y + radius * Math.sin(pitch), target.z + radius * Math.cos(pitch) * Math.cos(yaw));
   camera.lookAt(target);
 }
 function resize() {
@@ -52,11 +48,7 @@ function play(name) {
   for (const button of document.querySelectorAll('[data-clip]')) button.setAttribute('aria-pressed', String(button.dataset.clip === name));
 }
 function eyes(color) {
-  const palette = {
-    violet: [0xc234ff, 0x7d00e6],
-    red: [0xff2847, 0xaf0017],
-    blue: [0x2daeff, 0x0065d8]
-  }[color];
+  const palette = { violet: [0xc234ff, 0x7d00e6], red: [0xff2847, 0xaf0017], blue: [0x2daeff, 0x0065d8] }[color];
   model?.traverse((part) => {
     if (part.name === 'EyeL' || part.name === 'EyeR') {
       part.material.color.setHex(palette[0]);
@@ -64,39 +56,40 @@ function eyes(color) {
     }
   });
 }
-
 function showStatus(message, failed = false) {
   status.textContent = message;
   status.dataset.state = failed ? 'error' : 'ready';
 }
-
-function toArrayBuffer(value) {
-  if (value instanceof ArrayBuffer) return value;
-  if (ArrayBuffer.isView(value)) return value.buffer.slice(value.byteOffset, value.byteOffset + value.byteLength);
-  throw new TypeError('O arquivo da malha chegou em um formato inválido.');
+function base64ToArrayBuffer(base64) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+  return bytes.buffer;
 }
 
-async function loadMesh() {
+function loadMesh() {
   try {
-    if (typeof window.noxDesktop?.readMeshAsset !== 'function') throw new Error('A ponte do aplicativo não está disponível.');
-    const rawAsset = await window.noxDesktop.readMeshAsset();
-    const gltf = await new Promise((resolve, reject) => new GLTFLoader().parse(toArrayBuffer(rawAsset), '', resolve, reject));
-    model = gltf.scene;
-    model.position.y = -.88;
-    model.rotation.y = Math.PI;
-    scene.add(model);
-    mixer = new THREE.AnimationMixer(model);
-    model.userData.clips = new Map(gltf.animations.map((clip) => [clip.name, clip]));
-    play('quadruped_idle');
-    showStatus('Malha carregada · duas animações de teste disponíveis');
+    const asset = window.noxDesktop?.readMeshAsset?.();
+    if (!asset) throw new Error('A ponte do aplicativo não está disponível.');
+    if (asset.error) throw new Error(asset.error);
+    if (!asset.base64) throw new Error('A malha 3D está vazia.');
+    new GLTFLoader().parse(base64ToArrayBuffer(asset.base64), '', (gltf) => {
+      model = gltf.scene;
+      model.position.y = -.88;
+      model.rotation.y = Math.PI;
+      scene.add(model);
+      mixer = new THREE.AnimationMixer(model);
+      model.userData.clips = new Map(gltf.animations.map((clip) => [clip.name, clip]));
+      play('quadruped_idle');
+      showStatus('Malha carregada · duas animações de teste disponíveis');
+    }, (error) => showStatus(`Não carregou: ${error.message}`, true));
   } catch (error) {
     console.error(error);
     showStatus(`Não carregou: ${error.message}`, true);
   }
 }
 
-void loadMesh();
-
+loadMesh();
 canvas.addEventListener('pointerdown', (event) => { dragging = { x: event.clientX, y: event.clientY }; canvas.setPointerCapture(event.pointerId); });
 canvas.addEventListener('pointermove', (event) => {
   if (!dragging) return;
@@ -109,12 +102,7 @@ canvas.addEventListener('pointerup', () => { dragging = undefined; });
 canvas.addEventListener('wheel', (event) => { radius = THREE.MathUtils.clamp(radius + event.deltaY * .006, 4.2, 12); updateCamera(); }, { passive: true });
 document.querySelectorAll('[data-clip]').forEach((button) => button.addEventListener('click', () => play(button.dataset.clip)));
 document.querySelectorAll('[data-eye]').forEach((button) => button.addEventListener('click', () => eyes(button.dataset.eye)));
-
 const clock = new THREE.Clock();
-function render() {
-  mixer?.update(clock.getDelta());
-  renderer.render(scene, camera);
-  requestAnimationFrame(render);
-}
+function render() { mixer?.update(clock.getDelta()); renderer.render(scene, camera); requestAnimationFrame(render); }
 updateCamera(); resize(); render();
 addEventListener('resize', resize);
